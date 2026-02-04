@@ -115,8 +115,19 @@ const products = [
 ];
 
 function ProductList() {
-  const handleCompra = (productName) => {
-    alert(`¡Has agregado "${productName}" al carrito! 🛒`);
+  const handleCompra = (product) => {
+    // Emitir evento personalizado para que el carrito lo escuche
+    const event = new CustomEvent('producto-agregado', {
+      detail: product
+    });
+    window.dispatchEvent(event);
+    
+    // Enviar a otras pestañas/puertos usando BroadcastChannel
+    const channel = new BroadcastChannel('carrito-channel');
+    channel.postMessage({ action: 'producto-agregado', data: product });
+    
+    // Notificación mejorada con más información
+    alert(`✅ ¡Producto agregado al carrito!\n\n📦 ${product.name}\n💰 ${product.price}\n\n🛒 Ve a la página de Carrito para ver todos tus productos`);
   };
 
   return (
@@ -127,7 +138,7 @@ function ProductList() {
           <ProductTitle>{product.name}</ProductTitle>
           <ProductPrice>{product.price}</ProductPrice>
           <ProductDescription>{product.description}</ProductDescription>
-          <BotonComprar onClick={() => handleCompra(product.name)}>
+          <BotonComprar onClick={() => handleCompra(product)}>
             Comprar Ahora
           </BotonComprar>
         </CardProducto>

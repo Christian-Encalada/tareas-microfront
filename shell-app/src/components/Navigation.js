@@ -68,6 +68,9 @@ function Navigation() {
           <StyledNavLink to="/usuarios">
             👥 Usuarios
           </StyledNavLink>
+          <StyledNavLink to="/carrito">
+            🛒 Carrito
+          </StyledNavLink>
         </NavLinks>
       </NavContainer>
     </Nav>
